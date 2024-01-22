@@ -1,2 +1,2 @@
 # DailyProgressBar
-Watch your daily progress as progress bar!
+Productivity enhancing tool with a dynamic time tracking progress bar
