@@ -59,18 +59,3 @@ class ProgressWidget(QWidget):
         painter.setPen(QPen(QColor(255, 255, 255, 51)))  
         painter.setBrush(QColor(255, 255, 255, 51)) 
         painter.drawRect(marker_rect)
-
-        for minute in range(0, total_minutes + 1, 60): 
-            self.drawMinuteMarker(painter, minute, total_minutes, progress_rect)
-
-    def drawMinuteMarker(self, painter, minute, total_minutes, progress_rect):
-        marker_width = 2
-        marker_rect = QRect(0, 30, marker_width, progress_rect.height())
-        
-        marker_left = (minute / total_minutes) * (self.width() - marker_width) + progress_rect.left()
-
-        marker_rect.moveLeft(marker_left)
-
-        painter.setPen(QPen(QColor(255, 255, 255, 51)))  
-        painter.setBrush(QColor(255, 255, 255, 51)) 
-        painter.drawRect(marker_rect)
