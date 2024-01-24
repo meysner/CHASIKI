@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget
 from PySide6.QtGui import QPainter, QColor, QPen
-from PySide6.QtCore import QRect, QTimer
+from PySide6.QtCore import QRect
 
 class ProgressWidget(QWidget):
     def __init__(self, parent):
@@ -13,14 +13,14 @@ class ProgressWidget(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        progress_rect = QRect(0, 0, self.width(), self.height())
-
         start_hour = self.parent().start_hour
         end_hour = self.parent().end_hour
         current_time = self.parent().current_time
 
         progress_bar_color = self.parent().progress_bar_color
         window_corner_radius = self.parent().window_corner_radius
+        outline = self.parent().outline_width
+        outline_color = self.parent().outline_color
 
         total_minutes = (end_hour - start_hour) * 60
         current_minutes = (current_time.hour() - start_hour) * 60 + current_time.minute()
@@ -28,8 +28,9 @@ class ProgressWidget(QWidget):
         progress_percentage = current_minutes / total_minutes * 100
         progress_percentage = max(0, min(100, progress_percentage))
 
-        outline_color = QColor(255, 255, 255)
-        outline_pen = QPen(outline_color, 2)  
+        progress_rect = QRect(outline, outline, self.width() - outline*2, self.height() - outline*2)
+
+        outline_pen = QPen(outline_color, outline)  
         painter.setPen(outline_pen)
         painter.setBrush(QColor(0, 0, 0, 51))
         painter.drawRoundedRect(progress_rect, window_corner_radius, window_corner_radius) 
@@ -40,17 +41,18 @@ class ProgressWidget(QWidget):
         progress_rect.setWidth(progress_width)
         painter.drawRoundedRect(progress_rect, window_corner_radius, window_corner_radius)  
 
-        for minute in range(0, total_minutes + 1, 60): 
-            self.drawMinuteMarker(painter, minute, total_minutes, progress_rect)
+        for minute in range(0, total_minutes, 60): 
+            if minute == 0: continue
+            self.drawMinuteMarker(painter, minute, total_minutes, progress_rect,outline,outline_color)
 
-    def drawMinuteMarker(self, painter, minute, total_minutes, progress_rect):
+    def drawMinuteMarker(self, painter, minute, total_minutes, progress_rect, outline,outline_color):
         marker_width = 2
-        marker_rect = QRect(0, 0, marker_width, progress_rect.height())
-        
-        marker_left = (minute / total_minutes) * (self.width() - marker_width) + progress_rect.left()
-
+        marker_rect = QRect(outline, outline, marker_width, progress_rect.height())
+        marker_left = (minute / total_minutes) * (self.width() - marker_width) + outline
         marker_rect.moveLeft(marker_left)
 
-        painter.setPen(QPen(QColor(255, 255, 255, 51)))  
-        painter.setBrush(QColor(255, 255, 255, 51)) 
+        marker_color = QColor(outline_color.red(), outline_color.green(), outline_color.blue(), 51)
+
+        painter.setPen(QPen(marker_color))
+        painter.setBrush(marker_color)
         painter.drawRect(marker_rect)
