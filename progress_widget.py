@@ -5,11 +5,6 @@ from PySide6.QtCore import QRect, QTimer
 class ProgressWidget(QWidget):
     def __init__(self, parent):
         super(ProgressWidget, self).__init__(parent)
-        self.setMinimumSize(200, 50)
-
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.updateProgress)
-        self.timer.start(60000)  
 
     def updateProgress(self):
         self.update()
@@ -18,7 +13,7 @@ class ProgressWidget(QWidget):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.Antialiasing)
 
-        progress_rect = QRect(10, 30, self.width() - 20, self.height() - 40)
+        progress_rect = QRect(0, 0, self.width(), self.height())
 
         start_hour = self.parent().start_hour
         end_hour = self.parent().end_hour
@@ -50,7 +45,7 @@ class ProgressWidget(QWidget):
 
     def drawMinuteMarker(self, painter, minute, total_minutes, progress_rect):
         marker_width = 2
-        marker_rect = QRect(0, 30, marker_width, progress_rect.height())
+        marker_rect = QRect(0, 0, marker_width, progress_rect.height())
         
         marker_left = (minute / total_minutes) * (self.width() - marker_width) + progress_rect.left()
 
