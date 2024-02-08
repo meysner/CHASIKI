@@ -1,22 +1,30 @@
 # CHASIKI
-Progress bar on top of all windows, showing customizable time periods. Improve your productivity by tracking your remaining time. Written on PyQT6 (crossplatform).
 
-![Frame 6](https://github.com/meysner/CHASIKI/assets/115107592/a0109e7a-1e2c-4ab1-8e5d-b9e0b5c297b7)
+![Frame 6](https://cdn.discordapp.com/attachments/1081195391426498581/1205188016751116382/Frame_11.png)
 
-## How to use
+## Overview
+CHASIKI is a cross-platform productivity tool built using PyQT6. It offers a customizable time tracking feature displayed as a progress bar on top of all windows. By visualizing your remaining time, it aims to enhance productivity and time management. Contributions are welcome!
+
+## Key Features
+* Cross-Platform Compability (Windows and MacOS)
+* Customizable Time Periods
+* Save/Load Custom Themes
+
+## Usage
 Install PySide6
 ```shell
 pip install PySide6
 ```
-Next, clone this repo
+Clone this repo
 ```shell
 git clone https://github.com/meysner/CHASIKI.git
 ```
-Then, launch main.py
+Launch main.pyw
 ```shell
-python main.py
+python main.pyw
 ```
 
+## 
 Tested on Python 3.10
 
 
