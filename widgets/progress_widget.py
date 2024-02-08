@@ -17,22 +17,27 @@ class ProgressWidget(QWidget):
         end_hour = self.parent().end_hour
         current_time = self.parent().current_time
 
+        if end_hour < start_hour: end_hour+=24
+
         progress_bar_color = self.parent().progress_bar_color
         window_corner_radius = self.parent().window_corner_radius
         outline = self.parent().outline_width
         outline_color = self.parent().outline_color
+        bg_color = self.parent().bg_color
 
-        total_minutes = (end_hour - start_hour) * 60
-        current_minutes = (current_time.hour() - start_hour) * 60 + current_time.minute()
-
+        total_minutes = abs((end_hour - start_hour) * 60)
+        if current_time.hour() > start_hour:
+            current_minutes = (current_time.hour() - start_hour) * 60 + current_time.minute()
+        else:
+            current_minutes = (current_time.hour()+24 - start_hour) * 60 + current_time.minute()
         progress_percentage = current_minutes / total_minutes * 100
         progress_percentage = max(0, min(100, progress_percentage))
 
         progress_rect = QRect(outline, outline, self.width() - outline*2, self.height() - outline*2)
 
-        outline_pen = QPen(outline_color, outline)  
+        outline_pen = QPen(outline_color, outline)
         painter.setPen(outline_pen)
-        painter.setBrush(QColor(0, 0, 0, 51))
+        painter.setBrush(bg_color)
         painter.drawRoundedRect(progress_rect, window_corner_radius, window_corner_radius) 
 
         painter.setPen(outline_pen)
