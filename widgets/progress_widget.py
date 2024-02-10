@@ -26,11 +26,12 @@ class ProgressWidget(QWidget):
         bg_color = self.parent().bg_color
 
         total_minutes = abs((end_hour - start_hour) * 60)
-        if current_time.hour() > start_hour:
+        if current_time.hour() >= start_hour:
             current_minutes = (current_time.hour() - start_hour) * 60 + current_time.minute()
         else:
             current_minutes = (current_time.hour()+24 - start_hour) * 60 + current_time.minute()
         progress_percentage = current_minutes / total_minutes * 100
+        print(start_hour, end_hour,current_time.hour(),total_minutes,current_minutes,progress_percentage)
         progress_percentage = max(0, min(100, progress_percentage))
 
         progress_rect = QRect(outline, outline, self.width() - outline*2, self.height() - outline*2)
